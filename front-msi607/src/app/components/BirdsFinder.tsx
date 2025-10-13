@@ -9,38 +9,13 @@ import {
   ChevronDown,
   ChevronUp,
   Loader2,
-  MapPin,
 } from "lucide-react";
 
-// Interfaces y tipos
-interface Alternative {
-  name: string;
-  confidence: number;
-}
-
-interface BirdDetails {
-  image: string;
-  size: string;
-  weight: string;
-  colors: string;
-}
-
-interface IdentificationResult {
-  confidence: number;
-  commonName: string;
-  scientificName: string;
-  alternatives: Alternative[];
-  details: BirdDetails;
-}
-
-interface ExpandedSections {
-  characteristics: boolean;
-}
-
-interface FileValidation {
-  valid: boolean;
-  error?: string;
-}
+import {
+  IdentificationResult,
+  ExpandedSections,
+  FileValidation,
+} from "@/app/interfaces/index";
 
 type ConfidenceLevel = "high" | "medium" | "low";
 
