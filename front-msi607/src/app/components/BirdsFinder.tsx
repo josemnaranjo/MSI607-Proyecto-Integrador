@@ -17,6 +17,8 @@ import {
   FileValidation,
 } from "@/app/interfaces/index";
 
+import identificateBirdSound from "@/app/services/identificateBirdSound"
+
 type ConfidenceLevel = "high" | "medium" | "low";
 
 const BirdIdentifierApp: React.FC = () => {
@@ -95,43 +97,6 @@ const BirdIdentifierApp: React.FC = () => {
     setIsDragging(false);
   };
 
-  const simulateAnalysis = (): Promise<IdentificationResult> => {
-    return new Promise((resolve) => {
-      setProgress(0);
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            return 100;
-          }
-          return prev + 10;
-        });
-      }, 100);
-
-      setTimeout(() => {
-        clearInterval(interval);
-        // Simulación de resultado
-        resolve({
-          confidence: 87,
-          commonName: "Zorzal Patagónico",
-          scientificName: "Turdus falcklandii",
-          alternatives: [
-            { name: "Zorzal Austral", confidence: 72 },
-            { name: "Zorzal Colorado", confidence: 65 },
-          ],
-          details: {
-            image:
-              "https://images.unsplash.com/photo-1444464666168-49d633b86797?w=800&h=600&fit=crop",
-            size: "23-25 cm de longitud",
-            weight: "85-110 gramos",
-            colors:
-              "Plumaje marrón oliváceo en el dorso, pecho amarillento con manchas oscuras",
-          },
-        });
-      }, 1000);
-    });
-  };
-
   const handleIdentify = async (): Promise<void> => {
     if (!file) {
       setError("Por favor, carga un archivo de audio primero");
@@ -143,7 +108,7 @@ const BirdIdentifierApp: React.FC = () => {
     setError(null);
 
     try {
-      const analysisResult = await simulateAnalysis();
+       const analysisResult = await identificateBirdSound(file)
       setResult(analysisResult);
     } catch (err) {
       setError(
