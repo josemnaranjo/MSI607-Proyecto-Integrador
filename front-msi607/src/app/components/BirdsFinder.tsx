@@ -23,10 +23,6 @@ interface BirdDetails {
   size: string;
   weight: string;
   colors: string;
-  habitat: string;
-  behavior: string;
-  distribution: string;
-  vocalization: string;
 }
 
 interface IdentificationResult {
@@ -39,9 +35,6 @@ interface IdentificationResult {
 
 interface ExpandedSections {
   characteristics: boolean;
-  habitat: boolean;
-  distribution: boolean;
-  vocalization: boolean;
 }
 
 interface FileValidation {
@@ -60,9 +53,6 @@ const BirdIdentifierApp: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [expandedSections, setExpandedSections] = useState<ExpandedSections>({
     characteristics: true,
-    habitat: false,
-    distribution: false,
-    vocalization: false,
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -161,14 +151,6 @@ const BirdIdentifierApp: React.FC = () => {
             weight: "85-110 gramos",
             colors:
               "Plumaje marrón oliváceo en el dorso, pecho amarillento con manchas oscuras",
-            habitat:
-              "Bosques templados, matorrales y áreas arboladas de la Patagonia. Prefiere zonas con vegetación densa cerca de cursos de agua.",
-            behavior:
-              "Ave territorial y solitaria durante la época reproductiva. Se alimenta principalmente en el suelo, buscando invertebrados y frutos.",
-            distribution:
-              "Endémico del sur de Chile y Argentina, desde Valparaíso hasta Tierra del Fuego. Común en todo el rango patagónico.",
-            vocalization:
-              "Canto melodioso y variado, compuesto por frases repetidas. Emite llamadas cortas y agudas como alarma.",
           },
         });
       }, 1000);
@@ -468,82 +450,6 @@ const BirdIdentifierApp: React.FC = () => {
                           <p>
                             <strong>Colores:</strong> {result.details.colors}
                           </p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Hábitat */}
-                    <div className="border-b border-gray-200 pb-4">
-                      <button
-                        onClick={() => toggleSection("habitat")}
-                        className="w-full flex items-center justify-between text-left min-h-[44px]"
-                        aria-expanded={expandedSections.habitat}
-                      >
-                        <h3 className="text-lg font-semibold text-gray-800">
-                          Hábitat y Comportamiento
-                        </h3>
-                        {expandedSections.habitat ? (
-                          <ChevronUp className="w-5 h-5 text-gray-600" />
-                        ) : (
-                          <ChevronDown className="w-5 h-5 text-gray-600" />
-                        )}
-                      </button>
-                      {expandedSections.habitat && (
-                        <div className="mt-3 space-y-2 text-gray-700">
-                          <p>
-                            <strong>Hábitat:</strong> {result.details.habitat}
-                          </p>
-                          <p>
-                            <strong>Comportamiento:</strong>{" "}
-                            {result.details.behavior}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Distribución */}
-                    <div className="border-b border-gray-200 pb-4">
-                      <button
-                        onClick={() => toggleSection("distribution")}
-                        className="w-full flex items-center justify-between text-left min-h-[44px]"
-                        aria-expanded={expandedSections.distribution}
-                      >
-                        <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                          <MapPin className="w-5 h-5" />
-                          Distribución Geográfica
-                        </h3>
-                        {expandedSections.distribution ? (
-                          <ChevronUp className="w-5 h-5 text-gray-600" />
-                        ) : (
-                          <ChevronDown className="w-5 h-5 text-gray-600" />
-                        )}
-                      </button>
-                      {expandedSections.distribution && (
-                        <div className="mt-3 text-gray-700">
-                          <p>{result.details.distribution}</p>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Vocalización */}
-                    <div>
-                      <button
-                        onClick={() => toggleSection("vocalization")}
-                        className="w-full flex items-center justify-between text-left min-h-[44px]"
-                        aria-expanded={expandedSections.vocalization}
-                      >
-                        <h3 className="text-lg font-semibold text-gray-800">
-                          Vocalización
-                        </h3>
-                        {expandedSections.vocalization ? (
-                          <ChevronUp className="w-5 h-5 text-gray-600" />
-                        ) : (
-                          <ChevronDown className="w-5 h-5 text-gray-600" />
-                        )}
-                      </button>
-                      {expandedSections.vocalization && (
-                        <div className="mt-3 text-gray-700">
-                          <p>{result.details.vocalization}</p>
                         </div>
                       )}
                     </div>
