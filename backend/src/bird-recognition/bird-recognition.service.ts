@@ -1,5 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AzureStorageService } from '../storage/azure-storage.service';
 import { MlService } from '../ml-service/ml-service.service';
 import { BirdRecognitionResponseDto } from './dto/upload-audio.dto';
 
@@ -7,10 +6,7 @@ import { BirdRecognitionResponseDto } from './dto/upload-audio.dto';
 export class BirdRecognitionService {
   private readonly logger = new Logger(BirdRecognitionService.name);
 
-  constructor(
-    private readonly azureStorageService: AzureStorageService,
-    private readonly mlService: MlService,
-  ) {}
+  constructor(private readonly mlService: MlService) {}
 
   async processAudio(
     file: Express.Multer.File,
@@ -19,23 +15,16 @@ export class BirdRecognitionService {
     this.logger.log(`Processing audio file: ${file.originalname}`);
 
     try {
-      // Upload audio to Azure Storage
-      const audioUrl = await this.azureStorageService.uploadFile(file);
-      this.logger.log(`Audio uploaded to: ${audioUrl}`);
-
-      // Send to ML model for prediction
-      const prediction = await this.mlService.predictBirdSpecies(
-        file.buffer,
-        audioUrl,
-      );
+      // Enviar directamente al ML model sin almacenar
+      const prediction = await this.mlService.predictBirdSpecies(file.buffer);
 
       this.logger.log(
         `Bird identified: ${prediction.species} (confidence: ${prediction.confidence})`,
       );
 
-      // You can store metadata in a database here if needed
+      // Log metadata si existe (sin almacenar)
       if (metadata?.location || metadata?.recordedAt) {
-        this.logger.log(`Metadata received: ${JSON.stringify(metadata)}`);
+        this.logger.log(`Metadata: ${JSON.stringify(metadata)}`);
       }
 
       return prediction;

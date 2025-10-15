@@ -43,9 +43,6 @@ export class BirdRecognitionResponseDto {
   @ApiProperty({ description: 'Confidence score (0-1)' })
   confidence: number;
 
-  @ApiProperty({ description: 'URL to the uploaded audio file' })
-  audioUrl: string;
-
   @ApiProperty({ description: 'Processing timestamp' })
   timestamp: string;
 

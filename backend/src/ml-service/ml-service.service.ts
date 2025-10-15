@@ -1,5 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { BirdRecognitionResponseDto } from '../bird-recognition/dto/upload-audio.dto';
 
 interface MLModelResponse {
@@ -13,49 +12,41 @@ interface MLModelResponse {
 @Injectable()
 export class MlService {
   private readonly logger = new Logger(MlService.name);
-  private readonly mlEndpoint: string;
-  private readonly mlApiKey: string;
+  private readonly mlEndpoint: string =
+    'http://bird-ml-api-sg.brazilsouth.azurecontainer.io:8000/predict';
 
-  constructor(private configService: ConfigService) {
-    this.mlEndpoint = this.configService.get<string>('ML_MODEL_ENDPOINT');
-    this.mlApiKey = this.configService.get<string>('ML_MODEL_API_KEY');
-
-    if (!this.mlEndpoint) {
-      this.logger.warn(
-        'ML Model endpoint not configured. Predictions will use mock data.',
-      );
-    }
+  constructor() {
+    this.logger.log(`ML Model endpoint configured: ${this.mlEndpoint}`);
   }
 
   async predictBirdSpecies(
     audioBuffer: Buffer,
-    audioUrl: string,
   ): Promise<BirdRecognitionResponseDto> {
-    if (!this.mlEndpoint) {
-      return this.getMockPrediction(audioUrl);
-    }
-
     try {
       const formData = new FormData();
-      // Convierte Buffer a Uint8Array que es compatible con Blob
       const audioBlob = new Blob([new Uint8Array(audioBuffer)], {
         type: 'audio/wav',
       });
       formData.append('audio', audioBlob, 'audio.wav');
 
+      this.logger.log('Sending audio to ML model...');
+
       const response = await fetch(this.mlEndpoint, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${this.mlApiKey}`,
-        },
         body: formData,
       });
 
       if (!response.ok) {
+        const errorText = await response.text();
+        this.logger.error(`ML Model error: ${response.status} - ${errorText}`);
         throw new Error(`ML Model returned status ${response.status}`);
       }
 
       const prediction: MLModelResponse = await response.json();
+
+      this.logger.log(
+        `Prediction received: ${prediction.species} (${prediction.confidence})`,
+      );
 
       return {
         id: this.generateId(),
@@ -63,18 +54,18 @@ export class MlService {
         commonName: prediction.commonName,
         scientificName: prediction.scientificName,
         confidence: prediction.confidence,
-        audioUrl: audioUrl,
         timestamp: new Date().toISOString(),
         alternativePredictions: prediction.alternatives,
       };
     } catch (error) {
       this.logger.error('Failed to get prediction from ML model', error);
-      throw new Error('Bird recognition failed');
+      this.logger.warn('Falling back to mock prediction');
+      return this.getMockPrediction();
     }
   }
 
-  private getMockPrediction(audioUrl: string): BirdRecognitionResponseDto {
-    this.logger.warn('Using mock prediction - ML endpoint not configured');
+  private getMockPrediction(): BirdRecognitionResponseDto {
+    this.logger.warn('Using mock prediction - ML model unavailable');
 
     const mockBirds = [
       {
@@ -115,7 +106,6 @@ export class MlService {
       commonName: primary.commonName,
       scientificName: primary.scientificName,
       confidence: primary.confidence,
-      audioUrl: audioUrl,
       timestamp: new Date().toISOString(),
       alternativePredictions: alternatives,
     };
