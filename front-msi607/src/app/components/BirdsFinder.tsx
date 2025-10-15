@@ -382,13 +382,16 @@ const BirdIdentifierApp: React.FC = () => {
                       {expandedSections.characteristics && (
                         <div className="mt-3 space-y-2 text-gray-700">
                           <p>
-                            <strong>Tamaño:</strong> {result.details.size}
+                            <strong>Tamaño (promedio):</strong> {result.details.size}
                           </p>
                           <p>
-                            <strong>Peso:</strong> {result.details.weight}
+                            <strong>Peso (promedio):</strong> {result.details.weight}
                           </p>
                           <p>
                             <strong>Colores:</strong> {result.details.colors}
+                          </p>
+                          <p>
+                            <strong>Habitat:</strong> {result.details.habitat}
                           </p>
                         </div>
                       )}

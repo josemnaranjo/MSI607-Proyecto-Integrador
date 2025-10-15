@@ -8,6 +8,7 @@ export interface BirdDetails {
   size: string;
   weight: string;
   colors: string;
+  habitat: string
 }
 
 export interface IdentificationResult {
