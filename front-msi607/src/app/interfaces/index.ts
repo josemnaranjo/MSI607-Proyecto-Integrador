@@ -12,9 +12,10 @@ export interface BirdDetails {
 }
 
 export interface IdentificationResult {
-  confidence: number;
+  species: string;
   commonName: string;
   scientificName: string;
+  confidence: number;
   alternativePredictions: Alternative[];
   details: BirdDetails;
 }
