@@ -1,5 +1,5 @@
 export interface Alternative {
-  name: string;
+  species: string;
   confidence: number;
 }
 
@@ -15,7 +15,7 @@ export interface IdentificationResult {
   confidence: number;
   commonName: string;
   scientificName: string;
-  alternatives: Alternative[];
+  alternativePredictions: Alternative[];
   details: BirdDetails;
 }
 

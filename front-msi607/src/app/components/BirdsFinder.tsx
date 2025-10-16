@@ -331,18 +331,18 @@ const BirdIdentifierApp: React.FC = () => {
                       </span>
                     </div>
 
-                    {result.alternatives && result.alternatives.length > 0 && (
+                    {result.alternativePredictions && result.alternativePredictions.length > 0 && (
                       <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                         <p className="text-sm font-medium text-gray-700 mb-3">
                           Otras especies posibles:
                         </p>
                         <div className="space-y-2">
-                          {result.alternatives.map((alt, idx) => (
+                          {result.alternativePredictions.map((alt, idx) => (
                             <div
                               key={idx}
                               className="flex justify-between items-center text-sm"
                             >
-                              <span className="text-gray-800">{alt.name}</span>
+                              <span className="text-gray-800">{alt.species}</span>
                               <span className="text-gray-600">
                                 {alt.confidence}%
                               </span>
