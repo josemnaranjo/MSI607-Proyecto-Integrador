@@ -27,6 +27,31 @@ export class UploadAudioDto {
   recordedAt?: string;
 }
 
+export class BirdDetails {
+  @ApiProperty({ description: 'URL of bird image' })
+  image: string;
+
+  @ApiProperty({ description: 'Size of the bird' })
+  size: string;
+
+  @ApiProperty({ description: 'Weight of the bird' })
+  weight: string;
+
+  @ApiProperty({ description: 'Color description' })
+  colors: string;
+
+  @ApiProperty({ description: 'Habitat information' })
+  habitat: string;
+}
+
+export class Alternative {
+  @ApiProperty({ description: 'Species name' })
+  species: string;
+
+  @ApiProperty({ description: 'Confidence score' })
+  confidence: number;
+}
+
 export class BirdRecognitionResponseDto {
   @ApiProperty({ description: 'Unique identifier for this recognition' })
   id: string;
@@ -48,14 +73,13 @@ export class BirdRecognitionResponseDto {
 
   @ApiProperty({
     description: 'Additional predictions with lower confidence',
-    type: 'array',
-    items: {
-      type: 'object',
-      properties: {
-        species: { type: 'string' },
-        confidence: { type: 'number' },
-      },
-    },
+    type: [Alternative],
   })
-  alternativePredictions?: Array<{ species: string; confidence: number }>;
+  alternativePredictions?: Alternative[];
+
+  @ApiProperty({
+    description: 'Detailed information about the bird',
+    type: BirdDetails,
+  })
+  details: BirdDetails;
 }

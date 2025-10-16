@@ -1,13 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { BirdRecognitionResponseDto } from '../bird-recognition/dto/upload-audio.dto';
-
-interface MLModelResponse {
-  species: string;
-  commonName: string;
-  scientificName: string;
-  confidence: number;
-  alternatives?: Array<{ species: string; confidence: number }>;
-}
+import {
+  MLModelResponse,
+  MLPredictionResult,
+} from './interface/ml-service.interface';
 
 @Injectable()
 export class MlService {
@@ -19,9 +14,7 @@ export class MlService {
     this.logger.log(`ML Model endpoint configured: ${this.mlEndpoint}`);
   }
 
-  async predictBirdSpecies(
-    audioBuffer: Buffer,
-  ): Promise<BirdRecognitionResponseDto> {
+  async predictBirdSpecies(audioBuffer: Buffer): Promise<MLPredictionResult> {
     try {
       const formData = new FormData();
       const audioBlob = new Blob([new Uint8Array(audioBuffer)], {
@@ -64,33 +57,33 @@ export class MlService {
     }
   }
 
-  private getMockPrediction(): BirdRecognitionResponseDto {
+  private getMockPrediction(): MLPredictionResult {
     this.logger.warn('Using mock prediction - ML model unavailable');
 
     const mockBirds = [
       {
-        species: 'Chucao',
-        commonName: 'Chucao Tapaculo',
-        scientificName: 'Scelorchilus rubecula',
+        species: 'cachudito',
+        commonName: 'White-crested Elaenia',
+        scientificName: 'Elaenia albiceps',
         confidence: 0.92,
       },
       {
-        species: 'Zorzal',
-        commonName: 'Austral Thrush',
-        scientificName: 'Turdus falcklandii',
-        confidence: 0.87,
+        species: 'chercan',
+        commonName: 'House Wren',
+        scientificName: 'Troglodytes aedon',
+        confidence: 0.88,
       },
       {
-        species: 'Diuca',
-        commonName: 'Common Diuca-Finch',
-        scientificName: 'Diuca diuca',
+        species: 'chincol',
+        commonName: 'Rufous-collared Sparrow',
+        scientificName: 'Zonotrichia capensis',
         confidence: 0.85,
       },
       {
-        species: 'Cachudito',
-        commonName: 'White-crested Elaenia',
-        scientificName: 'Elaenia albiceps',
-        confidence: 0.79,
+        species: 'zorzal',
+        commonName: 'Austral Thrush',
+        scientificName: 'Turdus falcklandii',
+        confidence: 0.87,
       },
     ];
 
