@@ -328,8 +328,7 @@ const BirdIdentifierApp: React.FC = () => {
                     >
                       <Info className="w-5 h-5" />
                       <span className="font-semibold">
-                        {getConfidenceLabel(result.confidence * 100)} (
-                        {result.confidence * 100}%)
+                        {getConfidenceLabel(result.confidence * 100)} {Math.ceil(result.confidence * 100) + "%"}
                       </span>
                     </div>
 
@@ -346,7 +345,7 @@ const BirdIdentifierApp: React.FC = () => {
                             >
                               <span className="text-gray-800">{alt.species}</span>
                               <span className="text-gray-600">
-                                {alt.confidence}%
+                                {Math.ceil(alt.confidence * 100 )}%
                               </span>
                             </div>
                           ))}
