@@ -5,9 +5,9 @@ on:
     branches:
       - main
     paths:
-      - 'backend/**'  # Solo se ejecuta si hay cambios en la carpeta backend
+      - 'backend/**'
       - '.github/workflows/deploy-backend.yml'
-  workflow_dispatch:  # Permite ejecutar manualmente desde GitHub
+  workflow_dispatch:
 
 env:
   NODE_VERSION: '20'
@@ -37,32 +37,18 @@ jobs:
       working-directory: ${{ env.BACKEND_PATH }}
       run: npm run build
     
-    - name: 🧪 Run tests (opcional - comenta si no tienes tests)
-      working-directory: ${{ env.BACKEND_PATH }}
-      run: npm run test:e2e || echo "No tests configured"
-      continue-on-error: true
-    
-    - name: 📋 Create deployment package
+    - name: 🧹 Prepare deployment (remove dev dependencies)
       working-directory: ${{ env.BACKEND_PATH }}
       run: |
-        echo "Creating deployment package..."
-        # Copiar archivos necesarios
-        mkdir -p deploy-package
-        cp -r dist deploy-package/
-        cp -r node_modules deploy-package/
-        cp package*.json deploy-package/
-        
-        # Si tienes archivos de configuración adicionales
-        # cp web.config deploy-package/ || true
-        
-        ls -la deploy-package/
+        echo "Removing dev dependencies..."
+        npm prune --production
     
     - name: 🚀 Deploy to Azure Web App
       uses: azure/webapps-deploy@v3
       with:
-        app-name: 'bird-recognition-api'  # Nombre de tu App Service
+        app-name: 'bird-recognition-api'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: ${{ env.BACKEND_PATH }}/deploy-package
+        package: ${{ env.BACKEND_PATH }}
     
     - name: ✅ Deployment completed
       run: |
