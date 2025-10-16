@@ -5,7 +5,7 @@ export default async function identificateBirdSound(audio: File) {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api/identify";
 
-    const response = await fetch(apiUrl, {
+    const response = await fetch(apiUrl +'/identify', {
       method: "POST",
       body: formData,
     });
