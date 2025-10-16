@@ -1,11 +1,12 @@
 export default async function identificateBirdSound(audio: File) {
   const formData = new FormData();
-  formData.append("audioFile", audio);
+  formData.append("file", audio);
 
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "/api/identify";
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const endpoint = `${apiUrl}/bird-recognition/identify`;
 
-    const response = await fetch(apiUrl +'/identify', {
+    const response = await fetch(endpoint, {
       method: "POST",
       body: formData,
     });
