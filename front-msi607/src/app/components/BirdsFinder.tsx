@@ -21,6 +21,8 @@ import Image from "next/image";
 
 import identificateBirdSound from "@/app/services/identificateBirdSound"
 
+import NoResult from "./NoResults";
+
 type ConfidenceLevel = "high" | "medium" | "low";
 
 const BirdIdentifierApp: React.FC = () => {
@@ -287,6 +289,9 @@ const BirdIdentifierApp: React.FC = () => {
 
           {/* Results Section */}
           <div className="space-y-6">
+            {result && result.confidence <= 0.20 && (
+              <NoResult />
+            )}
             {result && (
               <>
                 {/* Main Result */}
