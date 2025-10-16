@@ -37,11 +37,15 @@ jobs:
       working-directory: ${{ env.BACKEND_PATH }}
       run: npm run build
     
-    - name: 🧹 Prepare deployment (remove dev dependencies)
+    - name: 📋 List files before deploy (debug)
       working-directory: ${{ env.BACKEND_PATH }}
       run: |
-        echo "Removing dev dependencies..."
-        npm prune --production
+        echo "=== Files in backend folder ==="
+        ls -la
+        echo "=== Files in dist folder ==="
+        ls -la dist/ || echo "dist folder not found"
+        echo "=== node_modules exists? ==="
+        ls node_modules/ > /dev/null && echo "YES" || echo "NO"
     
     - name: 🚀 Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
