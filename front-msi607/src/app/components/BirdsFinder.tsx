@@ -17,6 +17,8 @@ import {
   FileValidation,
 } from "@/app/interfaces/index";
 
+import Image from "next/image";
+
 import identificateBirdSound from "@/app/services/identificateBirdSound"
 
 type ConfidenceLevel = "high" | "medium" | "low";
@@ -356,10 +358,11 @@ const BirdIdentifierApp: React.FC = () => {
 
                 {/* Species Details */}
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                  <img
+                  <Image
                     src={result.details.image}
                     alt={result.commonName}
                     className="w-full h-48 sm:h-64 object-cover"
+                    objectFit="contain"
                   />
 
                   <div className="p-6 sm:p-8 space-y-4">
