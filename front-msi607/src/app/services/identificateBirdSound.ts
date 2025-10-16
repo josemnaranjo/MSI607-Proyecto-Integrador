@@ -5,6 +5,7 @@ export default async function identificateBirdSound(audio: File) {
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const endpoint = `${apiUrl}/bird-recognition/identify`;
+    console.log("endpoint", endpoint)
 
     const response = await fetch(endpoint, {
       method: "POST",
