@@ -282,22 +282,6 @@ const BirdIdentifierApp: React.FC = () => {
                   "Identificar Ave"
                 )}
               </button>
-
-              {/* Progress Bar */}
-              {isAnalyzing && (
-                <div className="mt-4">
-                  <div className="flex justify-between text-sm text-gray-600 mb-2">
-                    <span>Procesando audio...</span>
-                    <span>{progress}%</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                    <div
-                      className="bg-blue-600 h-full transition-all duration-300 ease-out"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
@@ -317,7 +301,7 @@ const BirdIdentifierApp: React.FC = () => {
                         {result.commonName}
                       </h3>
                       <p className="text-lg text-gray-600 italic">
-                        {result.scientificName}
+                        Nombre cientifico :{result.scientificName}
                       </p>
                     </div>
 
@@ -343,7 +327,7 @@ const BirdIdentifierApp: React.FC = () => {
                               key={idx}
                               className="flex justify-between items-center text-sm"
                             >
-                              <span className="text-gray-800">{alt.species}</span>
+                              <span className="text-gray-800 font-bold">{alt.species}</span>
                               <span className="text-gray-600">
                                 {Math.ceil(alt.confidence * 100 )}%
                               </span>
@@ -357,12 +341,16 @@ const BirdIdentifierApp: React.FC = () => {
 
                 {/* Species Details */}
                 <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                  <Image
-                    src={result.details.image}
-                    alt={result.commonName}
-                    className="w-full h-48 sm:h-64 object-cover"
-                    objectFit="contain"
-                  />
+                  <div className="relative w-full h-48 sm:h-64">
+                    <Image
+                      src={result.details.image}
+                      alt={result.commonName}
+                      fill
+                      className="object-cover object-top"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      priority
+                    />
+                  </div>
 
                   <div className="p-6 sm:p-8 space-y-4">
                     {/* Características Físicas */}
