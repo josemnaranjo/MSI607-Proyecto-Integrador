@@ -321,13 +321,13 @@ const BirdIdentifierApp: React.FC = () => {
 
                     <div
                       className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border ${getConfidenceColor(
-                        result.confidence
+                        result.confidence * 100
                       )}`}
                     >
                       <Info className="w-5 h-5" />
                       <span className="font-semibold">
-                        {getConfidenceLabel(result.confidence)} (
-                        {result.confidence}%)
+                        {getConfidenceLabel(result.confidence * 100)} (
+                        {result.confidence * 100}%)
                       </span>
                     </div>
 
