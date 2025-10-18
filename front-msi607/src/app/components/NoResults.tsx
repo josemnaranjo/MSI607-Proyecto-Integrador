@@ -11,7 +11,7 @@ export default function NoResult () {
                     </div>
                     <div className="flex-1">
                         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-3">
-                        Confianza de los resultados menor al 20%
+                        Confianza de los resultados menor al 50%
                         </h2>
                         <p className="text-gray-700 leading-relaxed mb-4">
                         Nuestro modelo arrojó resultados con valores de confianza menores al 50%, por lo que <strong>no podemos asociar el audio a ninguna de las aves</strong> que tenemos en nuestra base de datos.

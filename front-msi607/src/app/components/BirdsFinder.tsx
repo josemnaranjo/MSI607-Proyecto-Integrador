@@ -292,7 +292,7 @@ const BirdIdentifierApp: React.FC = () => {
             {result && result.confidence <= 0.50 && (
               <NoResult />
             )}
-            {result && (
+            {result && result.confidence > 0.50 && (
               <>
                 {/* Main Result */}
                 <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
