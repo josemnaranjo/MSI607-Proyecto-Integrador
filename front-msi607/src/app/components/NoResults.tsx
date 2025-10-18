@@ -14,7 +14,7 @@ export default function NoResult () {
                         Confianza de los resultados menor al 20%
                         </h2>
                         <p className="text-gray-700 leading-relaxed mb-4">
-                        Nuestro modelo arrojó resultados con valores de confianza menores al 20%, por lo que <strong>no podemos asociar el audio a ninguna de las aves</strong> que tenemos en nuestra base de datos.
+                        Nuestro modelo arrojó resultados con valores de confianza menores al 50%, por lo que <strong>no podemos asociar el audio a ninguna de las aves</strong> que tenemos en nuestra base de datos.
                         </p>
                         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                         <p className="text-sm font-medium text-blue-900 mb-2">

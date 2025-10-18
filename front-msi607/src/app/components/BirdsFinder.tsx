@@ -289,7 +289,7 @@ const BirdIdentifierApp: React.FC = () => {
 
           {/* Results Section */}
           <div className="space-y-6">
-            {result && result.confidence <= 0.20 && (
+            {result && result.confidence <= 0.50 && (
               <NoResult />
             )}
             {result && (
